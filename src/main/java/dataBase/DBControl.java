@@ -9,10 +9,10 @@ public class DBControl {
     private static final String PASSWORD_DATA_BASE = "devel";
     private static final String ERROR_LOADING_DBMYSQL = "невозможно загрузить драйвер MySQL";
 
-    public static void main(String args[]) {
-
-        System.out.println(userVerification("pomortsew", "asdfg"));
-    }
+//    public static void main(String args[]) {
+//
+//        System.out.println(userVerification("pomortsew", "asdfg"));
+//    }
 
 
     // метод возвращает соединение с базой данных
@@ -32,7 +32,6 @@ public class DBControl {
 
     // метод добавления Пользователя в базу данных
     public static void addInfo(String login, String password, String name, String surname) {
-
         try {
             PreparedStatement preparedStatement = getConection()  // PreparedStatement конфигуратор запросов для базы данных
                     .prepareStatement("INSERT INTO users (login,pasword, uname,surname) VALUES (?,?,?,?)");
@@ -80,17 +79,15 @@ public class DBControl {
         return data;
     }
 
-// метод проверяет введеный пользователем логин и пароль на соответствие в базе данных
+
+// метод проверяет существует ли полученый логин в базе данных, если нет возвращаеn false
     public static boolean scaningLogin(String login) {
         boolean flag = false;
-
         try {
             ResultSet resultSet;
-
             PreparedStatement preparedStatement = getConection()
                     .prepareStatement("SELECT * FROM test_site.users WHERE login=?");
             preparedStatement.setString(1, login);
-
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next() && resultSet.getString("login") .equals( login)) {
                 flag = true;
@@ -101,6 +98,7 @@ public class DBControl {
         return flag;
     }
 
+// метод проверяет введеный пользователем логин и пароль на соответствие в базе данных если все совпадает возвращает true
 
     public static boolean userVerification(String login, String password) {
         boolean flag = false;
@@ -124,37 +122,7 @@ public class DBControl {
         }
         return flag;
     }
-//    public static void extractionFromDatabase(String login) {
-//
-//
-//        try {
-//            Statement statement=getConection().createStatement();
-//ResultSet resultSet;
-////             resultSet=statement.executeQuery("SELECT * FROM test_site.users ");
-////            resultSet=statement.executeQuery("SHOW TABLES ");
-////            resultSet=statement.executeQuery("SHOW DATABASES "); //вывод всех баз данных
-////            resultSet=statement.executeQuery("SHOW TABLES IN test_site");// вывод всех таблиц из базы (test_site)
-////            resultSet=statement.executeQuery("SELECT * FROM test_site.users"); //вывод все таблицы
-////            resultSet=statement.executeQuery("SELECT * FROM users WHERE login='rybkov'"); //вывод строки по значению (rybkov)
-////            resultSet=statement.executeQuery("SELECT  * from test_site.users");
-//            resultSet=statement.executeQuery("SELECT *from test_site.users WHERE login='rybkov' && pasword='qwerty'");//выводит строку из базы где login = rybkov и pasword = qwerty
-//
-//          while (resultSet.next()) {
-//
-//
-//              String result = resultSet.getString("uname");
-//              String result1 = resultSet.getString("surname");
-//
-//
-//              System.out.println(result+"   "+result1);
-//
-//          }
-//          statement.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+
 }
 
 
