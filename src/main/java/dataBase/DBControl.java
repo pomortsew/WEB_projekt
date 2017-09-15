@@ -18,8 +18,9 @@ public class DBControl {
     // метод возвращает соединение с базой данных
     public static Connection getConection() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connectionMySQL = DriverManager.getConnection(URL_DATA_BASE, LOGIN_DATA_BASE, PASSWORD_DATA_BASE);
+            Class.forName("com.mysql.jdbc.Driver"); // объявление драйвера базы данных
+            Connection connectionMySQL = DriverManager// создание подключения к базе данных
+                    .getConnection(URL_DATA_BASE, LOGIN_DATA_BASE, PASSWORD_DATA_BASE); // подключение к базе данных
             return connectionMySQL;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -31,14 +32,14 @@ public class DBControl {
 
     // метод добавления Пользователя в базу данных
     public static void addInfo(String login, String password, String name, String surname) {
-        System.out.println("начало метода");
+
         try {
-            PreparedStatement preparedStatement = getConection()
+            PreparedStatement preparedStatement = getConection()  // PreparedStatement конфигуратор запросов для базы данных
                     .prepareStatement("INSERT INTO users (login,pasword, uname,surname) VALUES (?,?,?,?)");
 
-            preparedStatement.setString(1, login);
-            preparedStatement.setString(2, password);
-            preparedStatement.setString(3, name);
+            preparedStatement.setString(1, login);          //конфигурирование запроса принимает н
+            preparedStatement.setString(2, password);       //на вход порядковый номер вопроса который стоит в запросе
+            preparedStatement.setString(3, name);           // и подстовляет на его место вторую переменную которую получает на вход
             preparedStatement.setString(4, surname);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -79,7 +80,7 @@ public class DBControl {
         return data;
     }
 
-
+// метод проверяет введеный пользователем логин и пароль на соответствие в базе данных
     public static boolean scaningLogin(String login) {
         boolean flag = false;
 
